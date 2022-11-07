@@ -31,9 +31,10 @@ class BaseContact:
         :return: string
         """
         if isinstance(self, BussinesContact):
-            return print(f'Wybieram numer {self.cellphone} i dzwonię do {self.name} {self.surname}.')
+            return f'Wybieram numer {self.cellphone} i dzwonię do {self.name} {self.surname}.'
         else:
-            return print(f'Wybieram numer {self.privatephone} i dzwonię do {self.name} {self.surname}.')
+            return f'Wybieram numer {self.privatephone} i dzwonię do {self.name} {self.surname}/'
+
 
     @property
     def label_length(self):
@@ -83,10 +84,11 @@ def print_by(x):
         by_order = sorted(collected_cards, key=lambda business_card: business_card.surname)
     else:
         by_order = sorted(collected_cards, key=lambda business_card: business_card.email)
+
     for card in by_order:
         print(card)
         print(card.contact())
-        print(card.label_length)
+        print(f'Label length = {card.label_length}')
         print('\n')
 
 if __name__ == '__main__':
