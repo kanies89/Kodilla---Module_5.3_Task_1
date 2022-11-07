@@ -26,7 +26,8 @@ class BaseContact:
 
     def contact(self):
         """
-        Contact function which writes cellphone number and name depending on business card type (base or business)
+        Contact function which writes cellphone number and name depending on business card type (base or business).
+
         :return: string
         """
         if isinstance(self, BussinesContact):
@@ -49,6 +50,7 @@ class BussinesContact(BaseContact):
 def create_contacts(x, y = True):
     """
     Creates contacts using BaseContact or BusinessContact class. Uses Faker library for random result.
+
     :param x: number of contacts to be created.
     :param y: True / False. If True then function will return BaseContact cards else it will be BusinessContact.
     :return: append the collected_cards list.
