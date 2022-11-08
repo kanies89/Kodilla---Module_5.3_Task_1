@@ -75,6 +75,15 @@ def create_contacts(x, y=True):
     return collected_cards
 
 
+def order(x):
+    if x == 1:
+        return lambda business_card: business_card.name
+    elif x == 2:
+        return lambda business_card: business_card.surname
+    else:
+        return lambda business_card: business_card.email
+
+
 def print_by(x, to_be_sorted):
     """
     Sorts by name / surname or email.
@@ -83,14 +92,8 @@ def print_by(x, to_be_sorted):
     :param to_be_sorted: list to be sorted.
     :return: strings of all cards __str__, strings of all cards contact() function, label_length
     """
-    if x == 1:
-        order = (lambda business_card: business_card.name)
-    elif x == 2:
-        order = (lambda business_card: business_card.surname)
-    else:
-        order = (lambda business_card: business_card.email)
 
-    by_order = sorted(to_be_sorted, key=order)
+    by_order = sorted(to_be_sorted, key=order(x))
     for card in by_order:
         print(card)
         print(card.contact())
