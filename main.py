@@ -12,13 +12,14 @@ parametry: rodzaj wizytówki oraz ilość. Wykorzystaj bibliotekę faker do gene
 """
 from faker import Faker
 
+
 class BaseContact:
     def __init__(self, name, surname, privatephone, email):
         self.name = name
         self.surname = surname
         self.privatephone = privatephone
         self.email = email
-        #Variables
+        # Variables
         self._label_length = len(f'{self.name} {self.surname}')
 
     def __str__(self):
@@ -36,16 +37,19 @@ class BaseContact:
     def label_length(self):
         return self._label_length
 
-class BussinesContact(BaseContact):
+
+class BusinessContact(BaseContact):
     def __init__(self, position, company, cellphone, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.position = position
         self.company = company
         self.cellphone = cellphone
+
     def contact(self):
         return f'Wybieram numer {self.cellphone} i dzwonię do {self.name} {self.surname}.'
 
-def create_contacts(x, y = True):
+
+def create_contacts(x, y=True):
     """
     Creates contacts using BaseContact or BusinessContact class. Uses Faker library for random result.
 
@@ -53,6 +57,7 @@ def create_contacts(x, y = True):
     :param y: True / False. If True then function will return BaseContact cards else it will be BusinessContact.
     :return: append the collected_cards list.
     """
+    collected_cards = []
     for item in range(x):
         a = fake.first_name()
         b = fake.last_name()
@@ -66,13 +71,16 @@ def create_contacts(x, y = True):
         if y:
             collected_cards.append(BaseContact(a, b, f, e))
         else:
-            collected_cards.append(BussinesContact(d, c, g, a, b, f, e))
+            collected_cards.append(BusinessContact(d, c, g, a, b, f, e))
+    return collected_cards
 
-def print_by(x):
+
+def print_by(x, to_be_sorted):
     """
     Sorts by name / surname or email.
 
     :param x: 1 - by name, 2 - by surname, everything else - email.
+    :param to_be_sorted: list to be sorted.
     :return: strings of all cards __str__, strings of all cards contact() function, label_length
     """
     if x == 1:
@@ -82,15 +90,14 @@ def print_by(x):
     else:
         order = (lambda business_card: business_card.email)
 
-    by_order = sorted(collected_cards, key=order)
+    by_order = sorted(to_be_sorted, key=order)
     for card in by_order:
         print(card)
         print(card.contact())
         print(f'Label length = {card.label_length}')
         print('\n')
 
+
 if __name__ == '__main__':
     fake = Faker()
-    collected_cards = []
-    create_contacts(10, True)
-    print_by(1)
+    print_by(1, create_contacts(10, True))
