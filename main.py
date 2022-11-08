@@ -19,26 +19,21 @@ class BaseContact:
         self.privatephone = privatephone
         self.email = email
         #Variables
-        self._label_length = int()
+        self._label_length = len(f'{self.name} {self.surname}')
 
     def __str__(self):
         return f'{self.name} {self.surname} - {self.email}'
 
     def contact(self):
         """
-        Contact function which writes cellphone number and name depending on business card type (base or business).
+        Contact function which writes cellphone number.
 
         :return: string
         """
-        if isinstance(self, BussinesContact):
-            return f'Wybieram numer {self.cellphone} i dzwonię do {self.name} {self.surname}.'
-        else:
-            return f'Wybieram numer {self.privatephone} i dzwonię do {self.name} {self.surname}/'
-
+        return f'Wybieram numer {self.privatephone} i dzwonię do {self.name} {self.surname}'
 
     @property
     def label_length(self):
-        self._label_length = len(f'{self.name} {self.surname}')
         return self._label_length
 
 class BussinesContact(BaseContact):
@@ -47,6 +42,8 @@ class BussinesContact(BaseContact):
         self.position = position
         self.company = company
         self.cellphone = cellphone
+    def contact(self):
+        return f'Wybieram numer {self.cellphone} i dzwonię do {self.name} {self.surname}.'
 
 def create_contacts(x, y = True):
     """
@@ -79,12 +76,13 @@ def print_by(x):
     :return: strings of all cards __str__, strings of all cards contact() function, label_length
     """
     if x == 1:
-        by_order = sorted(collected_cards, key=lambda business_card: business_card.name)
+        order = (lambda business_card: business_card.name)
     elif x == 2:
-        by_order = sorted(collected_cards, key=lambda business_card: business_card.surname)
+        order = (lambda business_card: business_card.surname)
     else:
-        by_order = sorted(collected_cards, key=lambda business_card: business_card.email)
+        order = (lambda business_card: business_card.email)
 
+    by_order = sorted(collected_cards, key=order)
     for card in by_order:
         print(card)
         print(card.contact())
@@ -94,5 +92,5 @@ def print_by(x):
 if __name__ == '__main__':
     fake = Faker()
     collected_cards = []
-    create_contacts(10, False)
+    create_contacts(10, True)
     print_by(1)
